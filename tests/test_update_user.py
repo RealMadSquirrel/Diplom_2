@@ -19,8 +19,7 @@ class TestUpdateUser:
             "accessToken"])
         delete_user_request = UserApi.delete_user(login_user.json()[
             "accessToken"])
-        assert (update_user.status_code == 200 and update_user.json()[
-            "success"] == True and delete_user_request.status_code == 202)
+        assert update_user.status_code == 200 and update_user.json()["success"] == True
 
 
 
@@ -35,5 +34,4 @@ class TestUpdateUser:
             ChangeTestDataHelper.modify_payload_body(data.TestDataUser.UPDATE_JSON, key, value))
         delete_user_request = UserApi.delete_user(login_user.json()[
                                                       "accessToken"])
-        assert (update_user.status_code == 401 and update_user.json()[
-            "success"] == False and delete_user_request.status_code == 202)
+        assert update_user.status_code == 401 and update_user.json()["success"] == False

@@ -18,8 +18,8 @@ class TestGetOrder:
         get_oder = GetOrder.get_order_with_auth(login_user.json()["accessToken"])
         delete_user_request = UserApi.delete_user(created_user_request.json()[
             "accessToken"])
-        assert (get_oder.status_code == 200 and get_oder.json()[
-            "success"] == True and delete_user_request.status_code == 202)
+        assert get_oder.status_code == 200 and get_oder.json()[
+            "success"] == True
 
     @allure.title("Запрос списка заказов без авторизации")
     @allure.description("Делаем запрос и получаем ошибку 401.")

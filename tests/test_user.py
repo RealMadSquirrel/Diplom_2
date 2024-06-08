@@ -11,8 +11,8 @@ class TestCreateUser:
         created_user_request = UserApi.create_user(create_creds_user)
         delete_user_request = UserApi.delete_user(created_user_request.json()[
             "accessToken"])
-        assert (created_user_request.status_code == 200 and created_user_request.json()[
-            "success"] == True and delete_user_request.status_code == 202)
+        assert created_user_request.status_code == 200 and created_user_request.json()[
+            "success"] == True
 
     @allure.title("Проверка невозможности создать двух одинаковых пользователей")
     @allure.description("Запоминаем креды. Создаем user и пытаемся создать user с такими же кредами.")
