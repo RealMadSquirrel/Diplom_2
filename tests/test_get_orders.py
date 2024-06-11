@@ -12,12 +12,9 @@ from api.get_orders import GetOrder
 class TestGetOrder:
     @allure.title("Запрос списка заказов с авторизацией")
     @allure.description("Генерируем данные, создаем пользователя, делаем логин и запрашиваем заказы с авторизацией. Удаляем пользователя.")
-    def test_get_order_with_auth(self, create_creds_user):
-        created_user_request = UserApi.create_user(create_creds_user)
-        login_user = LoginUserApi.login(create_creds_user)
+    def test_get_order_with_auth(self, create_and_delete_user):
+        login_user = LoginUserApi.login(create_and_delete_user)
         get_oder = GetOrder.get_order_with_auth(login_user.json()["accessToken"])
-        delete_user_request = UserApi.delete_user(created_user_request.json()[
-            "accessToken"])
         assert get_oder.status_code == 200 and get_oder.json()[
             "success"] == True
 

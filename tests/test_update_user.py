@@ -12,12 +12,9 @@ class TestUpdateUser:
     @allure.title("Проверка обновления параметров пользователя c авторизацией - Успешное обновление")
     @allure.description("Генерируем данные для создания пользователя, создаем пользователя, делаем логин и пытаемся изменить каждый параметр. Удаляем пользователя.")
     @pytest.mark.parametrize('key, value', data.TestDataUser.DATA_UPDATE)
-    def test_success_update_user_with_auth(self, create_creds_user, key, value):
-        created_user_request = UserApi.create_user(create_creds_user)
-        login_user = LoginUserApi.login(create_creds_user)
+    def test_success_update_user_with_auth(self, create_and_delete_user, key, value):
+        login_user = LoginUserApi.login(create_and_delete_user)
         update_user = UpdateUserApi.update_info_user_with_auth(ChangeTestDataHelper.modify_payload_body(data.TestDataUser.UPDATE_JSON, key, value), login_user.json()[
-            "accessToken"])
-        delete_user_request = UserApi.delete_user(login_user.json()[
             "accessToken"])
         assert update_user.status_code == 200 and update_user.json()["success"] == True
 
@@ -27,11 +24,8 @@ class TestUpdateUser:
     @allure.description(
         "Генерируем данные для создания пользователя, создаем пользователя и без авторизации пытаемся изменить каждый параметр. Удаляем пользователя.")
     @pytest.mark.parametrize('key, value', data.TestDataUser.DATA_UPDATE)
-    def test_update_user_no_auth(self, create_creds_user, key, value):
-        created_user_request = UserApi.create_user(create_creds_user)
-        login_user = LoginUserApi.login(create_creds_user)
+    def test_update_user_no_auth(self, create_and_delete_user, key, value):
+        login_user = LoginUserApi.login(create_and_delete_user)
         update_user = UpdateUserApi.update_info_user_no_auth(
             ChangeTestDataHelper.modify_payload_body(data.TestDataUser.UPDATE_JSON, key, value))
-        delete_user_request = UserApi.delete_user(login_user.json()[
-                                                      "accessToken"])
         assert update_user.status_code == 401 and update_user.json()["success"] == False

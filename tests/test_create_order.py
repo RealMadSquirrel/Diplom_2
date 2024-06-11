@@ -13,13 +13,10 @@ class TestOrder:
     @allure.title("Создание заказа с авторизацией и ингредиентами")
     @allure.description(
         "Генерируем данные, создаем пользователя, делаем логин и делаем заказ с авторизацией. Удаляем пользователя.")
-    def test_create_order_with_auth(self, create_creds_user):
-        created_user_request = UserApi.create_user(create_creds_user)
-        login_user = LoginUserApi.login(create_creds_user)
+    def test_create_order_with_auth(self, create_and_delete_user):
+        login_user = LoginUserApi.login(create_and_delete_user)
         create_oder = OrderApi.create_order_with_auth(data.TestDataUser.DATA_FOR_CREATE_ORDER, login_user.json()[
             "accessToken"])
-        delete_user_request = UserApi.delete_user(created_user_request.json()[
-                                                      "accessToken"])
         assert create_oder.status_code == 200 and create_oder.json()["success"] == True
 
     @allure.title("Создание заказа с без авторизации с ингредиентами")
